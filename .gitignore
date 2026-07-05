@@ -1,0 +1,17 @@
+# Local assistant / workspace metadata
+.agents/
+.codex/
+
+# Handoff notes and local-only packaging artifacts
+handoff/
+*.zip
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>USYD Timetable Planner</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h2 data-i18n="appTitle">USYD Timetable Planner</h2>
+      <p class="subtitle" data-i18n="subtitle">Capture classes, avoid clashes, and plan your USYD preferences.</p>
+    </div>
+  </header>
+
+  <section class="top-controls">
+    <label class="compact-field">
+      <span data-i18n="language">Language</span>
+      <select id="languageSelect">
+        <option value="zh">中文</option>
+        <option value="en">English</option>
+      </select>
+    </label>
+  </section>
+
+  <section class="panel">
+    <div class="instruction-box">
+      <p data-i18n="intro">Open one Lecture or Tutorial page, then click Read Current Page.</p>
+      <p data-i18n="browserRecommendation">Recommended browser: Chrome or Microsoft Edge.</p>
+      <ol>
+        <li data-i18n="stepOpen">Open a unit's Lecture or Tutorial preference page.</li>
+        <li data-i18n="stepRead">Click Read Current Page to capture that table.</li>
+        <li data-i18n="stepRepeat">Repeat for every Lecture and Tutorial, then generate a plan.</li>
+      </ol>
+    </div>
+
+    <button id="readCurrent" data-i18n="readCurrent">Read Current Page</button>
+    <button id="generatePlan" data-i18n="generatePlan">Generate Plan</button>
+    <button id="exportExcel" data-i18n="exportExcel">Export Excel CSV</button>
+    <button id="clearAll" class="secondary" data-i18n="clearAll">Clear Captured Data</button>
+    <div id="actionStatus" class="action-status" aria-live="polite"></div>
+  </section>
+
+  <section class="panel">
+    <h3 data-i18n="plannerSettings">Planner Settings</h3>
+
+    <label class="toggle">
+      <input id="ignoreCapacity" type="checkbox" />
+      <span data-i18n="ignoreCapacity">Ignore full classes / demand percentage</span>
+    </label>
+
+    <label class="field">
+      <span data-i18n="strategy">Strategy</span>
+      <select id="strategy">
+        <option value="random" data-i18n="randomStrategy">Random conflict-free</option>
+        <option value="early" data-i18n="earlyStrategy">Early finish + availability</option>
+        <option value="compact" data-i18n="compactStrategy">Compact days</option>
+      </select>
+    </label>
+
+    <div class="days">
+      <p data-i18n="availableDays">Available days</p>
+      <label><input type="checkbox" value="Mon" checked /> Mon</label>
+      <label><input type="checkbox" value="Tue" checked /> Tue</label>
+      <label><input type="checkbox" value="Wed" checked /> Wed</label>
+      <label><input type="checkbox" value="Thu" checked /> Thu</label>
+      <label><input type="checkbox" value="Fri" checked /> Fri</label>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h3 data-i18n="capturedActivities">Captured Activities</h3>
+    <div id="savedList"></div>
+  </section>
+
+  <section id="outputPanel" class="panel">
+    <h3 data-i18n="plannerOutput">Planner Output</h3>
+    <div id="result"></div>
+  </section>
+
+  <footer>
+    <button id="feedbackTool" class="feedback-button" type="button" hidden data-i18n="feedbackTool">Feedback or bug report</button>
+    <button id="supportTool" class="support-card" type="button">
+      <span class="support-copy">
+        <strong><span aria-hidden="true">☕</span> <span data-i18n="supportTool">Support this tool</span></strong>
+        <span data-i18n="footerDonate">If this tool helped, you can support future maintenance.</span>
+      </span>
+    </button>
+    <p class="privacy" data-i18n="footerPrivacy">All data stays in your browser. No backend. No account.</p>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
