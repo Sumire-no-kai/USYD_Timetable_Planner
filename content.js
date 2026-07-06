@@ -16,15 +16,35 @@
     return findUnitCode(text) !== "UNKNOWN_UNIT";
   }
 
-  function inferActivityType(text) {
+  function escapeRegExp(text) {
+    return String(text || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function normaliseActivityType(value) {
+    const type = String(value || "").toLowerCase();
+    if (type === "laboratory") return "Lab";
+    return type ? type.charAt(0).toUpperCase() + type.slice(1) : "Unknown";
+  }
+
+  function inferActivityType(text, unitCode) {
     const clean = String(text || "");
-    const orderedMatches = [...clean.matchAll(/\b(Lecture|Tutorial|Laboratory|Lab|Workshop|Seminar|Practical)\b/gi)];
+    const activityPattern = /\b(Lecture|Tutorial|Laboratory|Lab|Workshop|Seminar|Practical)\b/gi;
+
+    if (unitCode && unitCode !== "UNKNOWN_UNIT") {
+      const unitPattern = new RegExp(`${escapeRegExp(unitCode)}[\\s\\S]{0,220}`, "gi");
+      for (const match of clean.matchAll(unitPattern)) {
+        const unitScopedMatches = [...match[0].matchAll(activityPattern)];
+        if (unitScopedMatches.length > 0) {
+          return normaliseActivityType(unitScopedMatches[0][1]);
+        }
+      }
+    }
+
+    const orderedMatches = [...clean.matchAll(activityPattern)];
 
     if (orderedMatches.length === 0) return "Unknown";
 
-    const last = orderedMatches[orderedMatches.length - 1][1].toLowerCase();
-    if (last === "laboratory") return "Lab";
-    return last.charAt(0).toUpperCase() + last.slice(1);
+    return normaliseActivityType(orderedMatches[0][1]);
   }
 
   function getContextTextForTable(table) {
@@ -221,12 +241,13 @@
       if (indexes.activity < 0 || indexes.day < 0 || indexes.time < 0) continue;
 
       const contextText = getContextTextForTable(table);
-      const nearestUnitContext = hasUnitCode(contextText) ? "" : getNearestUnitContext(table);
+      const nearestUnitContext = getNearestUnitContext(table);
       const pageCourseContext = hasUnitCode(contextText) || hasUnitCode(nearestUnitContext) ? "" : getPageCourseContext();
       const bodyText = hasUnitCode(contextText) || hasUnitCode(nearestUnitContext) || hasUnitCode(pageCourseContext) ? "" : document.body?.innerText || "";
       const unitContextText = normaliseWhitespace([contextText, nearestUnitContext, pageCourseContext, bodyText].filter(Boolean).join("\n"));
       const unitCode = findUnitCode(unitContextText);
-      const activityType = inferActivityType(contextText);
+      const activityContextText = normaliseWhitespace([nearestUnitContext, contextText].filter(Boolean).join("\n"));
+      const activityType = inferActivityType(activityContextText, unitCode);
       const unitName = getUnitName(unitContextText, unitCode);
       const headerIndex = rows.indexOf(headerRow);
 

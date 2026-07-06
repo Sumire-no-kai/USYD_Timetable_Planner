@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "USYD Timetable Planner",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Capture classes, avoid clashes, and plan your USYD timetable preferences.",
   "icons": {
     "16": "assets/icons/icon16.png",
