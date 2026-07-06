@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Support | USYD Timetable Planner</title>
   <meta name="description" content="Support page for the USYD Timetable Planner browser extension." />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260706-site2" />
 </head>
 <body>
   <header class="site-header">
@@ -13,32 +13,44 @@
       <a class="brand" href="index.html">USYD Timetable Planner</a>
       <div class="nav-links">
         <a href="privacy.html">Privacy Policy</a>
-        <a href="support.html">Support</a>
+        <a href="support.html" aria-current="page">Support</a>
       </div>
     </nav>
   </header>
 
-  <main>
-    <h1>Support</h1>
-    <p>Use this page for feedback, bug reports, and support requests related to USYD Timetable Planner.</p>
+  <main class="page">
+    <section class="intro">
+      <p class="page-label">Feedback and help</p>
+      <h1>Support</h1>
+      <p class="lead">Use this page for feedback, bug reports, and support requests related to USYD Timetable Planner.</p>
+      <div class="actions">
+        <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLSdajBPWYRldQs-DTg6nBWPmWw5abfc0csMrWlMZwCJkzPElmw/viewform" rel="noopener noreferrer">Open support form</a>
+        <a class="button secondary" href="privacy.html">Privacy policy</a>
+      </div>
+    </section>
 
-    <div class="note">
+    <div class="notice">
       <strong>Before submitting official timetable preferences:</strong> manually confirm all times, locations, availability, teaching weeks, and final preference order in Sydney Timetable.
     </div>
 
-    <h2>Feedback and Bug Reports</h2>
-    <p>Please include what you were trying to capture, which browser you used, and what happened.</p>
-    <p><a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLSdajBPWYRldQs-DTg6nBWPmWw5abfc0csMrWlMZwCJkzPElmw/viewform" rel="noopener noreferrer">Open Support Form</a></p>
-
-    <h2>Privacy</h2>
-    <p>The extension stores captured timetable data locally in your browser. It does not run a backend server, account system, analytics service, advertising service, or tracking service.</p>
-
-    <h2>Independent Project</h2>
-    <p>USYD Timetable Planner is an independent student-made tool and is not affiliated with, endorsed by, or officially supported by the University of Sydney.</p>
+    <dl class="facts">
+      <div class="fact-row">
+        <dt>Good bug reports include</dt>
+        <dd>The unit page you were reading, the browser used, what you clicked, and what result looked wrong.</dd>
+      </div>
+      <div class="fact-row">
+        <dt>Data handling</dt>
+        <dd>The extension stores captured timetable data locally in your browser and does not run analytics or tracking.</dd>
+      </div>
+      <div class="fact-row">
+        <dt>Project status</dt>
+        <dd>This is an independent student-made tool, not an official University of Sydney service.</dd>
+      </div>
+    </dl>
   </main>
 
   <footer class="site-footer">
-    <p>Copyright (c) 2026. USYD Timetable Planner is an independent project.</p>
+    <div class="footer-inner">Copyright (c) 2026. USYD Timetable Planner is an independent project.</div>
   </footer>
 </body>
 </html>

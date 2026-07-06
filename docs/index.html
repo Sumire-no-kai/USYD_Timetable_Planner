@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>USYD Timetable Planner</title>
   <meta name="description" content="A local-first browser extension for planning University of Sydney timetable preferences." />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260706-site2" />
 </head>
 <body>
   <header class="site-header">
@@ -18,37 +18,44 @@
     </nav>
   </header>
 
-  <main>
-    <h1>USYD Timetable Planner</h1>
-    <p class="lead">A local-first browser extension for planning University of Sydney timetable preferences.</p>
+  <main class="page">
+    <section class="intro">
+      <p class="page-label">Independent browser extension</p>
+      <h1>USYD Timetable Planner</h1>
+      <p class="lead">Capture Sydney Timetable options, compare class times, avoid clashes, and export a planning reference from your own browser.</p>
+      <div class="actions">
+        <a class="button" href="privacy.html">Read privacy policy</a>
+        <a class="button secondary" href="support.html">Get support</a>
+      </div>
+    </section>
 
-    <div class="note">
-      <strong>Independent project.</strong> This extension is not affiliated with, endorsed by, or officially supported by the University of Sydney.
+    <div class="notice">
+      <strong>Not an official University of Sydney service.</strong> This is an independent student-made tool. Always confirm final preferences in Sydney Timetable before submitting choices.
     </div>
 
-    <h2>What it does</h2>
-    <p>USYD Timetable Planner reads class option tables from Sydney Timetable after the user clicks the capture button. It helps compare class times, avoid timetable clashes, preview a weekly timetable, and export a readable CSV plan.</p>
+    <dl class="facts">
+      <div class="fact-row">
+        <dt>Runs locally</dt>
+        <dd>Captured timetable data and planner settings stay in the user's browser storage.</dd>
+      </div>
+      <div class="fact-row">
+        <dt>No tracking</dt>
+        <dd>No backend server, account system, analytics service, advertising service, or tracking service.</dd>
+      </div>
+      <div class="fact-row">
+        <dt>Planning only</dt>
+        <dd>The extension helps prepare a timetable plan. It does not submit, modify, or guarantee official allocations.</dd>
+      </div>
+    </dl>
 
-    <h2>Important limits</h2>
-    <ul>
-      <li>It does not submit or change official timetable preferences.</li>
-      <li>Generated plans are for planning reference only.</li>
-      <li>Users should manually confirm times, locations, availability, teaching weeks, and final preference order in Sydney Timetable.</li>
-    </ul>
-
-    <h2>Privacy summary</h2>
-    <ul>
-      <li>No backend server.</li>
-      <li>No account system.</li>
-      <li>No analytics, advertising, or tracking.</li>
-      <li>Captured timetable data is stored locally in the user's browser.</li>
-    </ul>
-
-    <p><a class="button" href="privacy.html">Read the privacy policy</a></p>
+    <section class="panel">
+      <h2>What it reads</h2>
+      <p>The extension reads class option tables from Sydney Timetable only after the user clicks the capture button. The captured table content may include unit codes, activity types, class times, locations, availability, and teaching weeks.</p>
+    </section>
   </main>
 
   <footer class="site-footer">
-    <p>Copyright (c) 2026. USYD Timetable Planner is an independent project.</p>
+    <div class="footer-inner">Copyright (c) 2026. USYD Timetable Planner is an independent project.</div>
   </footer>
 </body>
 </html>
