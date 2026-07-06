@@ -12,6 +12,10 @@
     return match ? match[0] : "UNKNOWN_UNIT";
   }
 
+  function hasUnitCode(text) {
+    return findUnitCode(text) !== "UNKNOWN_UNIT";
+  }
+
   function inferActivityType(text) {
     const clean = String(text || "");
     const orderedMatches = [...clean.matchAll(/\b(Lecture|Tutorial|Laboratory|Lab|Workshop|Seminar|Practical)\b/gi)];
@@ -27,12 +31,12 @@
     const chunks = [];
     let node = table;
 
-    for (let depth = 0; depth < 4 && node; depth += 1) {
+    for (let depth = 0; depth < 8 && node; depth += 1) {
       if (node.innerText) chunks.push(node.innerText);
 
       let sibling = node.previousElementSibling;
       let count = 0;
-      while (sibling && count < 3) {
+      while (sibling && count < 5) {
         if (sibling.innerText) chunks.push(sibling.innerText);
         sibling = sibling.previousElementSibling;
         count += 1;
@@ -42,6 +46,51 @@
     }
 
     return normaliseWhitespace(chunks.join("\n"));
+  }
+
+  function getPageCourseContext() {
+    const selectors = [
+      "h1",
+      "h2",
+      "h3",
+      "[class*='title' i]",
+      "[class*='header' i]",
+      "[class*='course' i]",
+      "[class*='subject' i]",
+      "[class*='unit' i]",
+      "[id*='title' i]",
+      "[id*='header' i]",
+      "[id*='course' i]",
+      "[id*='subject' i]",
+      "[id*='unit' i]"
+    ];
+
+    const chunks = [];
+    for (const element of document.querySelectorAll(selectors.join(","))) {
+      const text = normaliseWhitespace(element.innerText || element.textContent);
+      if (hasUnitCode(text)) chunks.push(text);
+    }
+
+    return normaliseWhitespace(chunks.join("\n"));
+  }
+
+  function getNearestUnitContext(table) {
+    const candidates = [];
+    const elements = [...document.body.querySelectorAll("*")];
+
+    for (const element of elements) {
+      if (element === table || table.contains(element)) continue;
+
+      const text = normaliseWhitespace(element.innerText || element.textContent);
+      if (!text || text.length > 700 || !hasUnitCode(text)) continue;
+
+      const relation = element.compareDocumentPosition(table);
+      if (relation & Node.DOCUMENT_POSITION_FOLLOWING) {
+        candidates.push(text);
+      }
+    }
+
+    return candidates[candidates.length - 1] || "";
   }
 
   function getUnitName(contextText, unitCode) {
@@ -172,9 +221,13 @@
       if (indexes.activity < 0 || indexes.day < 0 || indexes.time < 0) continue;
 
       const contextText = getContextTextForTable(table);
-      const unitCode = findUnitCode(contextText || document.body?.innerText || "");
+      const nearestUnitContext = hasUnitCode(contextText) ? "" : getNearestUnitContext(table);
+      const pageCourseContext = hasUnitCode(contextText) || hasUnitCode(nearestUnitContext) ? "" : getPageCourseContext();
+      const bodyText = hasUnitCode(contextText) || hasUnitCode(nearestUnitContext) || hasUnitCode(pageCourseContext) ? "" : document.body?.innerText || "";
+      const unitContextText = normaliseWhitespace([contextText, nearestUnitContext, pageCourseContext, bodyText].filter(Boolean).join("\n"));
+      const unitCode = findUnitCode(unitContextText);
       const activityType = inferActivityType(contextText);
-      const unitName = getUnitName(contextText, unitCode);
+      const unitName = getUnitName(unitContextText, unitCode);
       const headerIndex = rows.indexOf(headerRow);
 
       for (const row of rows.slice(headerIndex + 1)) {
